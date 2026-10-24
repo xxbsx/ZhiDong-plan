@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bgL" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#181b2e"/>
+      <stop offset="1" stop-color="#2b2a50"/>
+    </linearGradient>
+    <linearGradient id="shirtL" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5b6fdf"/>
+      <stop offset="1" stop-color="#3f50bb"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 背景（与阿伟同款构图，蓝紫调） -->
+  <rect width="512" height="512" rx="112" fill="url(#bgL)"/>
+  <circle cx="436" cy="78" r="86" fill="#6b66c9" opacity="0.18"/>
+  <circle cx="70" cy="446" r="58" fill="#ffffff" opacity="0.04"/>
+
+  <!-- 后层头发（匹配窄脸 rx84） -->
+  <ellipse cx="256" cy="236" rx="110" ry="142" fill="#232029"/>
+
+  <!-- 脖子 -->
+  <path d="M224 302 H288 V348 C288 369 271 381 256 381 C241 381 224 369 224 348 Z" fill="#dca983"/>
+
+  <!-- 身体 / 蓝色运动衫（与阿伟同款版型） -->
+  <path d="M88 512 V424 C88 356 162 326 256 326 C350 326 424 356 424 424 V512 Z" fill="url(#shirtL)"/>
+  <path d="M150 512 C150 442 196 410 256 410 C316 410 362 442 362 512 Z" fill="#32409b" opacity="0.28"/>
+
+  <!-- 前侧长发（沿脸颊垂到胸前以下，内层画在脸之前） -->
+  <path d="M180 196
+           C160 214 146 262 148 320
+           C150 380 156 432 158 474
+           C159 484 176 484 180 474
+           C190 410 192 330 186 268
+           C183 236 192 210 180 196 Z" fill="#232029"/>
+  <path d="M332 196
+           C352 214 366 262 364 320
+           C362 380 356 432 354 474
+           C353 484 336 484 332 474
+           C322 410 320 330 326 268
+           C329 236 320 210 332 196 Z" fill="#232029"/>
+
+  <!-- 脸（窄长鹅蛋脸 cx256 cy236 rx84） -->
+  <ellipse cx="256" cy="236" rx="84" ry="106" fill="#f2c39e"/>
+
+  <!-- 空气刘海（贴合窄脸发际线） -->
+  <path d="M178 212
+           C172 140 210 102 256 102
+           C302 102 340 140 334 212
+           C326 186 310 178 292 186
+           C284 168 268 162 256 168
+           C244 162 228 168 220 186
+           C202 178 186 186 178 212 Z" fill="#232029"/>
+
+  <!-- 眉毛（细、微弯） -->
+  <path d="M200 216 Q215 209 231 215" fill="none" stroke="#2c2830" stroke-width="6" stroke-linecap="round"/>
+  <path d="M281 215 Q297 209 312 216" fill="none" stroke="#2c2830" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- 眼睛（与阿伟同款椭圆眼，稍大+睫毛） -->
+  <ellipse cx="216" cy="240" rx="10" ry="12" fill="#2e2933"/>
+  <ellipse cx="296" cy="240" rx="10" ry="12" fill="#2e2933"/>
+  <circle cx="219.5" cy="235.5" r="3.4" fill="#fff"/>
+  <circle cx="219.5" cy="244" r="1.8" fill="#fff" opacity="0.8"/>
+  <circle cx="292.5" cy="235.5" r="3.4" fill="#fff"/>
+  <circle cx="292.5" cy="244" r="1.8" fill="#fff" opacity="0.8"/>
+  <!-- 上睫毛 -->
+  <path d="M207 233 L202 228 M225 232 L228 226" stroke="#2e2933" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M305 233 L310 228 M287 232 L284 226" stroke="#2e2933" stroke-width="2.4" stroke-linecap="round"/>
+
+  <!-- 鼻子 -->
+  <path d="M256 250 Q251 269 258 273" fill="none" stroke="#d89c75" stroke-width="5.5" stroke-linecap="round"/>
+
+  <!-- 微笑（珊瑚红唇） -->
+  <path d="M227 285 Q256 305 285 285" fill="none" stroke="#e06458" stroke-width="6.5" stroke-linecap="round"/>
+
+  <!-- 腮红 -->
+  <circle cx="195" cy="269" r="11" fill="#f08a8a" opacity="0.26"/>
+  <circle cx="317" cy="269" r="11" fill="#f08a8a" opacity="0.26"/>
+
+  <!-- 领口（与阿伟同款） -->
+  <path d="M220 332 Q256 368 292 332 Q256 352 220 332 Z" fill="#dca983"/>
+  <path d="M220 332 Q256 368 292 332" fill="none" stroke="#32409b" stroke-width="6" stroke-linecap="round"/>
+</svg>

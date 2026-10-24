@@ -1,0 +1,10 @@
+{
+  "appId": "com.zhidong.fit",
+  "appName": "智动计划",
+  "webDir": "cap-web",
+  "server": {
+    "url": "https://zhidong.xin",
+    "cleartext": false,
+    "androidScheme": "https"
+  }
+}

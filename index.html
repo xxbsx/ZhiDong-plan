@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <title>智动计划 · 运动饮食计划</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="app-icon-512.png" type="image/png" />
+  <link rel="apple-touch-icon" href="app-icon-512.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 启动屏：打开 App 时先展示约 1.5 秒，用于填补远程加载时间 -->
+  <div class="splash" id="splash">
+    <div class="splash-hero">
+      <span class="splash-halo" aria-hidden="true"></span>
+      <svg class="i splash-mark"><use href="#i-activity"/></svg>
+    </div>
+    <div class="splash-brand">智动计划</div>
+    <div class="splash-tag">科学训练 · 合理饮食</div>
+    <div class="splash-load" aria-hidden="true"><span></span></div>
+  </div>
+  <!-- SVG 线性图标集 -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-flame" viewBox="0 0 24 24">
+        <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+      </symbol>
+      <symbol id="i-home" viewBox="0 0 24 24">
+        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </symbol>
+      <symbol id="i-chat" viewBox="0 0 24 24">
+        <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>
+      </symbol>
+      <symbol id="i-board" viewBox="0 0 24 24">
+        <rect width="8" height="4" x="8" y="2" rx="1"/>
+        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+        <path d="M9 12h6M9 16h6"/>
+      </symbol>
+      <symbol id="i-user" viewBox="0 0 24 24">
+        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </symbol>
+      <symbol id="i-dumbbell" viewBox="0 0 24 24">
+        <path d="M14.4 14.4 9.6 9.6"/>
+        <path d="M18.7 21.5a2 2 0 1 1-2.9-2.8l-1.7 1.7a2 2 0 1 1-2.9-2.8l6.4-6.4a2 2 0 1 1 2.8 2.9l1.8-1.8a2 2 0 1 1 2.8 2.8z"/>
+        <path d="m21.5 21.5-1.4-1.4M3.9 3.9l1.4 1.4M18.4 6.4 5.6 19.1"/>
+      </symbol>
+      <symbol id="i-activity" viewBox="0 0 24 24">
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+      </symbol>
+      <symbol id="i-bowl" viewBox="0 0 24 24">
+        <path d="M3 11h18a9 9 0 0 1-18 0Z"/>
+        <path d="M12 3c-.8 1-1.2 1.8-1.2 2.6"/>
+        <path d="M8 21h8"/>
+      </symbol>
+      <symbol id="i-target" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9"/>
+        <circle cx="12" cy="12" r="5"/>
+        <circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/>
+      </symbol>
+      <symbol id="i-gear" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </symbol>
+      <symbol id="i-camera" viewBox="0 0 24 24">
+        <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+        <circle cx="12" cy="13" r="3"/>
+      </symbol>
+      <symbol id="i-chev-r" viewBox="0 0 24 24">
+        <polyline points="9 18 15 12 9 6"/>
+      </symbol>
+      <symbol id="i-chev-l" viewBox="0 0 24 24">
+        <polyline points="15 18 9 12 15 6"/>
+      </symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24">
+        <path d="M12 5v14M5 12h14"/>
+      </symbol>
+      <symbol id="i-edit" viewBox="0 0 24 24">
+        <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+        <path d="m15 5 4 4"/>
+      </symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24">
+        <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24">
+        <polyline points="5 12.5 10 17.5 19 7"/>
+      </symbol>
+      <symbol id="i-send" viewBox="0 0 24 24">
+        <path d="m22 2-7 20-4-9-9-4Z"/>
+        <path d="M22 2 11 13"/>
+      </symbol>
+      <symbol id="i-pause" viewBox="0 0 24 24">
+        <rect x="6" y="5" width="4" height="14" rx="1"/>
+        <rect x="14" y="5" width="4" height="14" rx="1"/>
+      </symbol>
+      <symbol id="i-play" viewBox="0 0 24 24">
+        <path d="M8 5v14l11-7z"/>
+      </symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24">
+        <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+      </symbol>
+      <symbol id="i-swap" viewBox="0 0 24 24">
+        <path d="M8 3 4 7l4 4"/>
+        <path d="M4 7h16"/>
+        <path d="m16 21 4-4-4-4"/>
+        <path d="M20 17H4"/>
+      </symbol>
+      <symbol id="i-x" viewBox="0 0 24 24">
+        <path d="M18 6 6 18M6 6l12 12"/>
+      </symbol>
+      <symbol id="i-capsule" viewBox="0 0 24 24">
+        <rect x="2.5" y="8.5" width="19" height="7" rx="3.5"/>
+        <path d="M12 8.5v7"/>
+      </symbol>
+      <symbol id="i-search" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="7"/>
+        <path d="m21 21-4.2-4.2"/>
+      </symbol>
+      <symbol id="i-volume" viewBox="0 0 24 24">
+        <path d="M11 5 6 9H3v6h3l5 4z"/>
+        <path d="M16 9a4 4 0 0 1 0 6"/>
+        <path d="M19.5 6.5a8 8 0 0 1 0 11"/>
+      </symbol>
+      <symbol id="i-volume-x" viewBox="0 0 24 24">
+        <path d="M11 5 6 9H3v6h3l5 4z"/>
+        <path d="m17 9.5 4 5M21 9.5l-4 5"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <main class="container">
+    <!-- ========== 首页（精选信息流：健身视频 + 广告，下滑加载新内容，不刷新页面） ========== -->
+    <section class="tab-content" id="tab-home">
+      <header class="feed-head">
+        <div class="feed-head-l">
+          <div class="feed-kicker"><span class="dot"></span>精选推荐</div>
+          <h2 class="feed-title">每日健身灵感</h2>
+        </div>
+        <button class="feed-supp-entry" id="feed-supp-entry" aria-label="打开营养优选">
+          <svg class="i"><use href="#i-capsule"/></svg>营养优选<svg class="i"><use href="#i-chev-r"/></svg>
+        </button>
+      </header>
+
+      <!-- 信息流卡片列表（左右两列，底边对齐） -->
+      <div class="feed-list" id="feed-list">
+        <div class="feed-col" id="feed-col-l"></div>
+        <div class="feed-col" id="feed-col-r"></div>
+      </div>
+
+      <!-- 底部加载哨兵：滚动到这里自动追加下一批 -->
+      <div class="feed-sentinel" id="feed-sentinel">
+        <div class="feed-loading" id="feed-loading">
+          <span class="feed-spinner"></span>
+          <span class="feed-loadtext">正在加载新内容…</span>
+        </div>
+      </div>
+
+      <!-- 一键回到顶部 -->
+      <button class="feed-top" id="feed-top" title="回到顶部" aria-label="回到顶部">
+        <svg class="i"><use href="#i-chev-r"/></svg>
+      </button>
+
+      <!-- 视频自动连播提示 -->
+      <div class="feed-toast" id="feed-toast" aria-live="polite"></div>
+    </section>
+
+    <!-- ========== 计划（阿伟教练 + 今日计划） ========== -->
+    <section class="tab-content" id="tab-plan">
+      <!-- 顶部子菜单 -->
+      <nav class="top-nav">
+        <button class="nav-item active" data-subtab="coach">
+          <svg class="i nav-ico"><use href="#i-chat"/></svg><span>AI教练</span>
+        </button>
+        <button class="nav-item" data-subtab="plan">
+          <svg class="i nav-ico"><use href="#i-board"/></svg><span>今日计划</span>
+          <span class="plan-dot" id="plan-dot"></span>
+        </button>
+      </nav>
+
+      <!-- 子页A：阿伟教练对话 -->
+      <div class="sub-content active" id="subtab-coach">
+        <!-- 深色教练横幅 -->
+        <div class="coach-hero">
+          <div class="ch-avatar"><img id="ch-avatar-img" src="coach-avatar.svg" alt="教练头像" /></div>
+          <div class="ch-main">
+            <div class="ch-name-row">
+              <span class="ch-name" id="ch-name">阿伟教练</span>
+              <span class="ch-badge"><svg class="i"><use href="#i-shield"/></svg>认证教练</span>
+            </div>
+            <div class="ch-status"><span class="status-dot"></span><span id="ch-status-text">在线 · 平均几秒内回复</span></div>
+          </div>
+          <div class="ch-side">
+            <button class="coach-switch" id="coach-switch" title="切换教练">
+              <svg class="i"><use href="#i-swap"/></svg>换教练
+            </button>
+            <div class="ch-tags" id="ch-tags">
+              <span>力量</span>
+              <span>增肌</span>
+              <span>饮食</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 消息流 -->
+        <div class="chat-log" id="chat-log">
+          <div class="chat-empty" id="chat-empty">
+            <div class="ce-avatar"><img id="ce-avatar-img" src="coach-avatar.svg" alt="教练头像" /></div>
+            <div class="ce-title" id="ce-title">嗨，我是阿伟</div>
+            <p id="ce-sub">告诉我你今天的情况<br/>训练和饮食我都可以帮你安排</p>
+            <div class="quick-chips" id="quick-chips"></div>
+          </div>
+        </div>
+
+        <!-- 悬浮输入器 -->
+        <div class="composer">
+          <textarea id="today-input" rows="1" placeholder="问问阿伟，训练 / 饮食都可以…"></textarea>
+          <button class="send-btn" id="send-btn" aria-label="发送">
+            <svg class="i"><use href="#i-send"/></svg>
+          </button>
+        </div>
+        <div class="coach-toast" id="coach-toast"></div>
+      </div>
+
+      <!-- 子页B：今日计划（训练 / 饮食 / 营养 三视图快速切换，不一起堆着展示） -->
+      <div class="sub-content" id="subtab-plan">
+        <!-- 顶部：视图切换 -->
+        <div class="card plan-top">
+          <div class="segmented plan-seg" id="plan-seg">
+            <button type="button" class="seg-btn active" data-pview="train">训练</button>
+            <button type="button" class="seg-btn" data-pview="diet">饮食</button>
+            <button type="button" class="seg-btn" data-pview="micro">营养</button>
+          </div>
+        </div>
+
+        <!-- 视图一：训练（力量 + 有氧 + 今日完成度） -->
+        <div class="plan-view" id="pview-train">
+          <div class="card nutrient-card">
+            <div class="done-block done-first">
+              <div class="done-head">
+                <div>
+                  <h3 class="subsection-title"><svg class="i"><use href="#i-board"/></svg>今日完成度</h3>
+                  <p class="done-sub" id="done-text">还没有计划项，添加一行或问问教练</p>
+                </div>
+                <div class="nutrient-ring done-ring">
+                  <svg viewBox="0 0 36 36" class="ring-svg">
+                    <path class="ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                    <path class="ring-fg" id="done-ring-fg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                  </svg>
+                  <div class="ring-text">
+                    <div class="ring-num" id="done-pct">0%</div>
+                    <div class="ring-lbl">完成</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="plan-section">
+              <div class="plan-section-head">
+                <h3 class="subsection-title"><svg class="i"><use href="#i-dumbbell"/></svg>力量训练</h3>
+                <button class="add-row-btn" data-add="workout"><svg class="i"><use href="#i-plus"/></svg>添加动作</button>
+              </div>
+              <div class="plan-table" id="workout-list"></div>
+              <p class="plan-empty" id="workout-empty">还没有训练计划，去问问AI教练吧</p>
+            </div>
+
+            <div class="plan-section">
+              <div class="plan-section-head">
+                <h3 class="subsection-title"><svg class="i"><use href="#i-activity"/></svg>有氧 / 拉伸</h3>
+                <button class="add-row-btn" data-add="cardio"><svg class="i"><use href="#i-plus"/></svg>添加</button>
+              </div>
+              <div class="plan-table" id="cardio-list"></div>
+              <p class="plan-empty" id="cardio-empty">还没有有氧安排</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 视图二：饮食（卡路里统计 + 今日饮食） -->
+        <div class="plan-view hide" id="pview-diet">
+          <div class="card nutrient-card">
+            <div class="nutrient-head">
+              <div>
+                <h2 class="card-title"><svg class="i"><use href="#i-flame"/></svg>今日卡路里</h2>
+                <p class="nutrient-sub" id="cal-progress-text">今天目标 -- kcal，还未记录饮食</p>
+              </div>
+              <div class="nutrient-ring">
+                <svg viewBox="0 0 36 36" class="ring-svg">
+                  <path class="ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                  <path class="ring-fg" id="ring-fg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                </svg>
+                <div class="ring-text">
+                  <div class="ring-num" id="ring-pct">0%</div>
+                  <div class="ring-lbl">摄入</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="nutrient-stats">
+              <div class="stat stat-target">
+                <div class="stat-num" id="cal-target">--</div>
+                <div class="stat-lbl">目标</div>
+              </div>
+              <div class="stat stat-intake">
+                <div class="stat-num" id="cal-intake">0</div>
+                <div class="stat-lbl">已摄入</div>
+              </div>
+              <div class="stat stat-burn">
+                <div class="stat-num" id="cal-burn">0</div>
+                <div class="stat-lbl">运动消耗</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card nutrient-card intake-card">
+            <div class="intake-section">
+              <div class="intake-section-head">
+                <span class="sect-lbl"><svg class="i"><use href="#i-bowl"/></svg>今日饮食</span>
+                <button class="add-row-btn" data-add="intake"><svg class="i"><use href="#i-plus"/></svg>添加食物</button>
+              </div>
+              <div class="plan-table" id="intake-list"></div>
+              <p class="plan-empty" id="intake-empty">还没有饮食记录，去问问AI教练或手动添加</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 视图三：营养（营养摄入估算 + 今日补剂打卡 + AI 建议） -->
+        <div class="plan-view hide" id="pview-micro">
+          <div class="card nutrient-card">
+            <div class="taken-head">
+              <h3 class="subsection-title"><svg class="i"><use href="#i-capsule"/></svg>今天服用的补剂</h3>
+            </div>
+            <div class="taken-search-wrap">
+              <svg class="i taken-search-ico"><use href="#i-search"/></svg>
+              <input id="taken-search" class="taken-search" type="text" placeholder="搜索补剂：钙 / 维D3 / 鱼油…" autocomplete="off" enterkeyhint="search" />
+              <div class="taken-drop hide" id="taken-drop"></div>
+            </div>
+            <div class="taken-chips" id="taken-chips"></div>
+          </div>
+
+          <div class="card nutrient-card">
+            <div class="micro-head">
+              <div class="micro-head-l">
+                <h2 class="card-title"><svg class="i"><use href="#i-bowl"/></svg>营养摄入估算</h2>
+                <p class="micro-sub" id="micro-sub">按今日已打卡的饮食与补剂折算</p>
+              </div>
+              <button class="gap-entry" id="gap-entry" type="button" aria-haspopup="dialog">
+                <span class="advice-ico"><svg class="i"><use href="#i-target"/></svg></span>
+                <span class="gap-entry-txt">AI 补缺方案</span>
+              </button>
+            </div>
+            <div class="micro-list" id="micro-list"></div>
+            <p class="micro-note">按常见食物参考值近似折算，日照有助维生素D合成 · 结果仅供参考，不替代医学建议</p>
+          </div>
+
+          <div class="card nutrient-card advice-card">
+            <div class="advice-head">
+              <span class="advice-ico"><svg class="i"><use href="#i-bowl"/></svg></span>
+              <span class="advice-head-text"><b>AI 营养师建议</b><i>小颖 · 只推荐补剂，不需要就直说</i></span>
+            </div>
+            <div class="advice-body" id="advice-body"></div>
+            <div class="advice-actions" id="advice-actions"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI 补缺方案小窗口：点窗口外 / 手机滑边框返回关闭 -->
+      <div class="gap-modal hide" id="gap-modal" role="dialog" aria-modal="true" aria-label="AI 补缺方案">
+        <div class="gap-window">
+          <button class="gap-close" id="gap-close" aria-label="关闭"><svg class="i"><use href="#i-x"/></svg></button>
+          <div class="advice-head">
+            <span class="advice-ico"><svg class="i"><use href="#i-target"/></svg></span>
+            <span class="advice-head-text"><b>AI 补缺方案</b><i>小颖 · 按上面的缺口算出吃什么补、吃多少，可一键加入今日饮食</i></span>
+          </div>
+          <div class="advice-body" id="gap-body"></div>
+          <div class="advice-actions" id="gap-actions"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 姿势识别（选今日力量训练 → 摄像头跟练 → 语音提示） ========== -->
+    <section class="tab-content" id="tab-pose">
+      <div class="pose-intro">
+        <div class="pose-kicker"><span class="dot"></span>实时姿态检测</div>
+        <h2 class="pose-title">姿势识师</h2>
+        <p class="pose-sub">选一个今日力量训练动作，打开摄像头，AI 实时描出你的骨架，语音陪你练完。</p>
+      </div>
+
+      <!-- 阶段一：选择今日力量训练动作 -->
+      <div class="card pose-pick" id="pose-pick">
+        <div class="pose-pick-head">
+          <h3 class="subsection-title"><svg class="i"><use href="#i-dumbbell"/></svg>今日力量训练</h3>
+          <span class="pose-pick-count" id="pose-pick-count"></span>
+        </div>
+        <div class="pose-task-list" id="pose-task-list"></div>
+        <p class="plan-empty" id="pose-pick-empty">今天还没有力量训练，先去「计划」添加动作，或问问 AI 教练。</p>
+      </div>
+
+      <!-- 阶段二：跟练检测 -->
+      <div class="card pose-card pose-live hide" id="pose-live">
+        <div class="pose-live-head">
+          <div class="plh-main">
+            <div class="plh-name" id="pose-live-name">--</div>
+            <div class="plh-goal" id="pose-live-goal">目标 --</div>
+          </div>
+          <button class="pose-voice" id="pose-voice-toggle" aria-label="语音提示开关">
+            <svg class="i"><use href="#i-volume"/></svg><span>语音开</span>
+          </button>
+        </div>
+
+        <div class="pose-screen">
+          <video id="pose-video" playsinline muted></video>
+          <canvas id="pose-canvas"></canvas>
+          <div class="pose-placeholder" id="pose-placeholder">
+            <svg class="i"><use href="#i-camera"/></svg>
+            <span>摄像头未开启</span>
+          </div>
+          <div class="pose-lock"><svg class="i"><use href="#i-shield"/></svg>仅本地处理 · 不上传</div>
+        </div>
+
+        <div class="pose-progress">
+          <div class="pp-top">
+            <span class="pp-lbl">已完成</span>
+            <span class="pp-val"><b id="pose-reps">0</b> / <span id="pose-target">10</span><i id="pose-unit">次</i></span>
+          </div>
+          <div class="pp-bar"><span id="pose-bar"></span></div>
+          <button class="pp-plus" id="pose-plus-one"><svg class="i"><use href="#i-plus"/></svg>手动 +1</button>
+        </div>
+
+        <div class="pose-controls">
+          <button class="pose-btn" id="pose-toggle" data-on="0"><svg class="i"><use href="#i-camera"/></svg><span>开启摄像头</span></button>
+          <button class="pose-btn ghost" id="pose-loading" style="display:none" disabled>加载检测模型…</button>
+          <button class="pose-btn ghost" id="pose-exit">结束</button>
+        </div>
+      </div>
+
+      <!-- 阶段二附带：实时标准度面板 -->
+      <div class="card pose-result pose-live hide" id="pose-result">
+        <div class="pr-head"><span class="pr-lbl">姿势标准度</span><span class="pr-tag" id="pose-status">等待开启</span></div>
+        <div class="pr-gauge">
+          <svg viewBox="0 0 120 120" class="pr-gauge-svg">
+            <circle cx="60" cy="60" r="50" class="pr-ring-bg" />
+            <circle cx="60" cy="60" r="50" class="pr-ring" id="pose-ring" />
+          </svg>
+          <div class="pr-score"><span class="pr-num" id="pose-score">--</span><span class="pr-unit">分</span></div>
+        </div>
+        <div class="pr-chips">
+          <div class="pr-chip"><span class="pc-k">身体垂直度</span><span class="pc-v" id="m-upright">--</span></div>
+          <div class="pr-chip"><span class="pc-k">重心平衡</span><span class="pc-v" id="m-balance">--</span></div>
+          <div class="pr-chip"><span class="pc-k">相机帧率</span><span class="pc-v" id="m-fps">--</span></div>
+        </div>
+        <p class="pr-hint" id="pose-hint">侧身站入画面中央，让全身都在框内，照着提示调整。</p>
+      </div>
+    </section>
+
+    <!-- ========== 营养优选（横向比成分与价格，选好再下单） ========== -->
+    <section class="tab-content" id="tab-supp">
+      <div class="supp-intro" id="supp-intro">
+        <div class="supp-kicker"><span class="dot"></span>营养优选</div>
+        <h2 class="supp-title">先比成分，再比价格</h2>
+        <p class="supp-sub">比对的是同一种补剂：把不同厂商的产品加入比对（最多 3 件），横向看清含量与价格，再决定买哪件。</p>
+      </div>
+
+      <!-- 搜索栏：按名称 / 品牌 / 成分实时过滤列表 -->
+      <div class="supp-search">
+        <svg class="i"><use href="#i-search"/></svg>
+        <input id="supp-search-input" type="search" placeholder="搜名称 / 品牌 / 成分，如：钙、蛋白、鱼油" autocomplete="off" />
+        <button class="supp-search-clear hide" id="supp-search-clear" aria-label="清空搜索"><svg class="i"><use href="#i-x"/></svg></button>
+      </div>
+
+      <!-- AI 营养师入口：不知道选什么时的问答引导 -->
+      <button class="ai-cta" id="ai-cta">
+        <span class="ai-cta-ico"><svg class="i"><use href="#i-bowl"/></svg></span>
+        <span class="ai-cta-text"><b>不知道选什么？</b><i>让 AI 营养师帮你挑</i></span>
+        <svg class="i ai-cta-arr"><use href="#i-chev-r"/></svg>
+      </button>
+
+      <!-- 浏览视图：分类筛选 + 补剂卡片列表 -->
+      <div id="supp-list-wrap">
+        <div class="supp-chips" id="supp-chips"></div>
+        <div class="supp-list" id="supp-list"></div>
+        <p class="supp-note">品牌与产品为真实在售参考，含量为官方标称值、价格随促销变动，请以下单页为准 · 营养品不能替代正常饮食与药物</p>
+      </div>
+
+      <!-- 对比视图：详细横向对比表 -->
+      <div class="supp-compare hide" id="supp-compare">
+        <div class="cmp-top">
+          <button class="cmp-return" id="supp-cmp-back"><svg class="i"><use href="#i-chev-l"/></svg>返回列表</button>
+          <span class="cmp-count" id="supp-cmp-count"></span>
+        </div>
+        <div class="cmp-scroll"><div class="cmp-grid" id="supp-cmp-grid"></div></div>
+        <p class="supp-note">「优」= 数值更高 · 「省」= 每日成本更低 · 「划算」= 每 1 元可得更多；只在同一种补剂之间对比</p>
+      </div>
+
+      <!-- 底部对比托盘：随「加入比对」出现（悬浮在底部菜单栏之上） -->
+      <div class="supp-tray" id="supp-tray">
+        <div class="tray-items" id="supp-tray-items"></div>
+        <button class="tray-go" id="supp-tray-go" disabled>开始对比</button>
+      </div>
+      <div class="supp-toast" id="supp-toast"></div>
+
+      <!-- AI 营养师浮层：说需求 → 只从清单内推荐 → 一键加入比对 -->
+      <div class="ai-mask hide" id="ai-mask"></div>
+      <div class="ai-sheet hide" id="ai-sheet" aria-hidden="true">
+        <div class="ai-head">
+          <span class="ai-avatar"><svg class="i"><use href="#i-bowl"/></svg></span>
+          <span class="ai-head-text"><b>AI 营养师 · 小颖</b><i>说说你的情况，只推荐补剂，不需要就直说</i></span>
+          <button class="ai-close" id="ai-close" aria-label="关闭 AI 营养师"><svg class="i"><use href="#i-x"/></svg></button>
+        </div>
+        <div class="ai-log" id="ai-log"></div>
+        <div class="ai-chips" id="ai-chips"></div>
+        <div class="ai-inputrow">
+          <input id="ai-input" placeholder="如：经常熬夜 / 想补钙 / 健身增肌" autocomplete="off" enterkeyhint="send" />
+          <button class="ai-send" id="ai-send" aria-label="发送"><svg class="i"><use href="#i-send"/></svg></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 我的（微信风格） ========== -->
+    <section class="tab-content" id="tab-mine">
+      <!-- 个人资料头部卡片 -->
+      <div class="wechat-profile-card">
+        <div class="wpc-avatar" id="wpc-avatar" title="点击更换头像">
+          <span class="wpc-avatar-in" id="wpc-avatar-in"><svg class="i"><use href="#i-user"/></svg></span>
+          <span class="wpc-cam"><svg class="i"><use href="#i-camera"/></svg></span>
+        </div>
+        <input type="file" id="avatar-input" accept="image/*" class="hide" />
+        <div class="wpc-info">
+          <div class="wpc-name-wrap">
+            <span class="wpc-name" id="wpc-name">健身达人</span>
+            <input type="text" id="wpc-name-input" class="wpc-name-input hide" maxlength="12" />
+            <span class="wpc-edit-ico" id="wpc-edit-name" title="点击修改昵称"><svg class="i"><use href="#i-edit"/></svg></span>
+          </div>
+          <div class="wpc-sub" id="wpc-sub">点击「我的资料」填写信息</div>
+        </div>
+      </div>
+
+      <!-- 标签胶囊 -->
+      <div class="wpc-tags">
+        <span class="wpc-tag" id="wpc-tag-goal">未设置目标</span>
+        <span class="wpc-tag" id="wpc-tag-act">未设置活动</span>
+      </div>
+
+      <!-- 菜单列表（默认显示） -->
+      <div class="mine-menu" id="mine-menu">
+        <div class="menu-card">
+          <div class="menu-row" data-mine="profile">
+            <span class="menu-ico"><svg class="i"><use href="#i-user"/></svg></span>
+            <span class="menu-text">我的资料</span>
+            <span class="menu-arrow"><svg class="i"><use href="#i-chev-r"/></svg></span>
+          </div>
+          <div class="menu-row" data-mine="setting">
+            <span class="menu-ico"><svg class="i"><use href="#i-gear"/></svg></span>
+            <span class="menu-text">设置</span>
+            <span class="menu-arrow"><svg class="i"><use href="#i-chev-r"/></svg></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 我的资料内容页 -->
+      <div class="mine-detail hide" id="mine-profile-detail">
+        <div class="detail-header">
+          <button class="back-btn" data-mine-back><svg class="i"><use href="#i-chev-l"/></svg></button>
+          <span class="detail-title">我的资料</span>
+        </div>
+        <!-- 展示态 -->
+        <div class="card" id="profile-display">
+          <div class="profile-head">
+            <h2 class="card-title">基础信息</h2>
+            <button class="edit-btn" id="edit-profile-btn"><svg class="i"><use href="#i-edit"/></svg>编辑</button>
+          </div>
+          <div class="profile-info" id="profile-info"></div>
+          <div class="profile-empty" id="profile-empty">
+            <p>还没有填写资料，点击「编辑」开始吧</p>
+          </div>
+        </div>
+        <!-- 编辑态 -->
+        <div class="card hide" id="profile-edit">
+          <h2 class="card-title">编辑资料</h2>
+          <p class="hint">填写你的基础信息，计算专属热量目标</p>
+          <div class="form-grid">
+            <label class="field">
+              <span class="field-label">性别</span>
+              <div class="segmented">
+                <button type="button" class="seg-btn" data-gender="male">男</button>
+                <button type="button" class="seg-btn" data-gender="female">女</button>
+              </div>
+              <span class="err-msg" id="err-gender"></span>
+            </label>
+            <label class="field">
+              <span class="field-label">年龄 <small>(岁)</small></span>
+              <input type="number" id="age" min="10" max="120" placeholder="请输入" />
+              <span class="err-msg" id="err-age"></span>
+            </label>
+            <label class="field">
+              <span class="field-label">身高 <small>(cm)</small></span>
+              <input type="number" id="height" min="100" max="300" placeholder="请输入" />
+              <span class="err-msg" id="err-height"></span>
+            </label>
+            <label class="field">
+              <span class="field-label">体重 <small>(kg)</small></span>
+              <input type="number" id="weight" min="30" max="300" placeholder="请输入" />
+              <span class="err-msg" id="err-weight"></span>
+            </label>
+            <label class="field full">
+              <span class="field-label">日常活动水平</span>
+              <select id="activity" required>
+                <option value="" disabled>请选择活动水平</option>
+                <option value="1.2">久坐（办公室，几乎不运动）</option>
+                <option value="1.375">轻度活动（每周运动1-3次）</option>
+                <option value="1.55">中度活动（每周运动3-5次）</option>
+                <option value="1.725">高度活动（每周运动6-7次）</option>
+                <option value="1.9">极高活动（体力劳动+每日高强度训练）</option>
+              </select>
+              <span class="err-msg" id="err-activity"></span>
+            </label>
+            <label class="field full">
+              <span class="field-label">当前目标</span>
+              <select id="goal-edit">
+                <option value="cut">减脂</option>
+                <option value="bulk">增肌</option>
+                <option value="sport">运动表现</option>
+              </select>
+            </label>
+          </div>
+          <div class="form-actions">
+            <button class="cancel-btn" id="cancel-edit-btn">取消</button>
+            <button class="start-btn" id="save-profile-btn">保存</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 设置内容页 -->
+      <div class="mine-detail hide" id="mine-setting-detail">
+        <div class="detail-header">
+          <button class="back-btn" data-mine-back><svg class="i"><use href="#i-chev-l"/></svg></button>
+          <span class="detail-title">设置</span>
+        </div>
+        <div class="card">
+          <h2 class="card-title">外观</h2>
+          <p class="hint">选择界面配色，跟随系统会自动切换</p>
+          <select class="theme-select" id="theme-select">
+            <option value="auto">跟随系统</option>
+            <option value="light">浅色</option>
+            <option value="dark">深色</option>
+          </select>
+        </div>
+        <div class="card">
+          <div class="set-row">
+            <div class="set-text">
+              <h2 class="card-title">交互</h2>
+              <p class="hint">取消已完成的训练、饮食、补剂打卡时，是否弹窗确认</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="confirm-cancel-toggle" checked />
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+        </div>
+        <div class="card">
+          <h2 class="card-title">数据管理</h2>
+          <p class="hint">清空后不可恢复，资料与头像不受影响</p>
+          <button class="mine-action-btn" id="reset-data-btn"><svg class="i"><use href="#i-trash"/></svg>清空所有数据（聊天 + 计划）</button>
+        </div>
+      </div>
+    </section>
+
+    <footer class="app-footer">
+      <p>数据仅供参考 · 请结合自身感受调整</p>
+    </footer>
+  </main>
+
+  <!-- 取消完成确认弹窗 -->
+  <div class="modal-mask hide" id="cancel-done-mask">
+    <div class="modal-box">
+      <div class="modal-title">是否取消完成？</div>
+      <p class="modal-sub">如要关闭，请去设置里关闭</p>
+      <div class="modal-actions">
+        <button type="button" class="modal-btn modal-ghost" id="cancel-done-no">再想想</button>
+        <button type="button" class="modal-btn modal-danger" id="cancel-done-yes">取消完成</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 姿势跟练：本组完成 → 是否进入下一个 -->
+  <div class="modal-mask hide" id="pose-next-mask">
+    <div class="modal-box">
+      <div class="modal-title">本组完成！</div>
+      <p class="modal-sub" id="pose-next-sub">动作达标，很棒。要不要继续下一个训练？</p>
+      <div class="modal-actions">
+        <button type="button" class="modal-btn modal-ghost" id="pose-next-stop">结束训练</button>
+        <button type="button" class="modal-btn" id="pose-next-go">进行下一个</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 姿势跟练：今日力量训练全部完成 -->
+  <div class="modal-mask hide" id="pose-done-mask">
+    <div class="modal-box">
+      <div class="modal-title">今日力量训练全部完成！</div>
+      <p class="modal-sub" id="pose-done-sub">每一组都认真练完了，恢复和饮食也别落下。</p>
+      <div class="modal-actions">
+        <button type="button" class="modal-btn" id="pose-done-ok">回去看看</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 返回手势提示：首页再滑一次退出应用（很小、浅灰） -->
+  <div class="back-toast" id="back-toast" role="status" aria-live="polite">再滑一次退出应用</div>
+
+  <!-- ========== 底部菜单栏 ========== -->
+  <nav class="bottom-nav">
+    <button class="bot-item active" data-tab="home">
+      <svg class="i bot-ico"><use href="#i-home"/></svg>
+      <span class="bot-lbl">首页</span>
+    </button>
+    <button class="bot-item" data-tab="plan">
+      <svg class="i bot-ico"><use href="#i-board"/></svg>
+      <span class="bot-lbl">计划</span>
+    </button>
+    <button class="bot-item" data-tab="pose">
+      <svg class="i bot-ico"><use href="#i-activity"/></svg>
+      <span class="bot-lbl">姿势</span>
+    </button>
+    <button class="bot-item" data-tab="supp">
+      <svg class="i bot-ico"><use href="#i-capsule"/></svg>
+      <span class="bot-lbl">优选</span>
+    </button>
+    <button class="bot-item" data-tab="mine">
+      <svg class="i bot-ico"><use href="#i-user"/></svg>
+      <span class="bot-lbl">我的</span>
+    </button>
+  </nav>
+
+  <!-- ========== 首次登录引导页（onboarding） ========== -->
+  <div class="ob" id="ob" aria-hidden="true">
+    <div class="ob-inner">
+      <header class="ob-top">
+        <span class="ob-brand"><svg class="i"><use href="#i-flame"/></svg>智动计划</span>
+        <div class="ob-steps" id="ob-steps">
+          <span class="ob-dot" data-ob-dot></span>
+          <span class="ob-dot" data-ob-dot></span>
+          <span class="ob-dot" data-ob-dot></span>
+          <span class="ob-dot" data-ob-dot></span>
+          <span class="ob-dot" data-ob-dot></span>
+        </div>
+      </header>
+
+      <main class="ob-body" id="ob-body">
+        <!-- 1 欢迎：昵称 + 性别 -->
+        <section class="ob-step active" data-ob-step="0">
+          <div class="ob-hero"><svg class="i"><use href="#i-dumbbell"/></svg></div>
+          <h1 class="ob-title">欢迎加入<br>智动计划</h1>
+          <p class="ob-sub">先花不到一分钟认识你，我好为你定制专属训练与热量目标。</p>
+          <label class="field ob-field">
+            <span class="field-label">怎么称呼你</span>
+            <input type="text" id="ob-name" placeholder="例如：阿明" maxlength="12" />
+            <span class="err-msg" id="ob-err-name"></span>
+          </label>
+          <label class="field ob-field">
+            <span class="field-label">你的性别</span>
+            <div class="ob-gender-seg" id="ob-gender-seg">
+              <button type="button" class="ob-gender" data-gender="male">男</button>
+              <button type="button" class="ob-gender" data-gender="female">女</button>
+            </div>
+            <span class="err-msg" id="ob-err-gender"></span>
+          </label>
+        </section>
+
+        <!-- 2 身体数据：身高 + 体重 + 实时BMI -->
+        <section class="ob-step" data-ob-step="1">
+          <div class="ob-hero"><svg class="i"><use href="#i-activity"/></svg></div>
+          <h1 class="ob-title">你的身体数据</h1>
+          <p class="ob-sub">我用来估算基础代谢（BMR）与每日消耗（TDEE）。</p>
+          <div class="ob-cols">
+            <label class="field ob-field">
+              <span class="field-label">身高 <small>(cm)</small></span>
+              <input type="number" id="ob-height" min="120" max="230" placeholder="例如 175" />
+              <span class="err-msg" id="ob-err-height"></span>
+            </label>
+            <label class="field ob-field">
+              <span class="field-label">体重 <small>(kg)</small></span>
+              <input type="number" id="ob-weight" min="30" max="300" placeholder="例如 65" />
+              <span class="err-msg" id="ob-err-weight"></span>
+            </label>
+          </div>
+          <div class="ob-bmi" id="ob-bmi-card">
+            <span class="ob-bmi-v" id="ob-bmi">--</span>
+            <span class="ob-bmi-l">BMI（实时）</span>
+          </div>
+        </section>
+
+        <!-- 3 运动习惯：年龄 + 活动水平 -->
+        <section class="ob-step" data-ob-step="2">
+          <div class="ob-hero"><svg class="i"><use href="#i-flame"/></svg></div>
+          <h1 class="ob-title">你的运动习惯</h1>
+          <p class="ob-sub">年龄与日常活动量决定了你的热量消耗基数。</p>
+          <label class="field ob-field">
+            <span class="field-label">年龄 <small>(岁)</small></span>
+            <input type="number" id="ob-age" min="10" max="120" placeholder="例如 25" />
+            <span class="err-msg" id="ob-err-age"></span>
+          </label>
+          <label class="field ob-field">
+            <span class="field-label">日常活动水平</span>
+            <select id="ob-activity" required>
+              <option value="" disabled selected>请选择</option>
+              <option value="1.2">久坐 · 几乎不运动</option>
+              <option value="1.375">轻度活动 · 每周1-3次</option>
+              <option value="1.55">中度活动 · 每周3-5次</option>
+              <option value="1.725">高度活动 · 每周6-7次</option>
+              <option value="1.9">极高活动 · 每日高强度</option>
+            </select>
+            <span class="err-msg" id="ob-err-activity"></span>
+          </label>
+        </section>
+
+        <!-- 4 目标 + 头像 -->
+        <section class="ob-step" data-ob-step="3">
+          <div class="ob-hero"><svg class="i"><use href="#i-target"/></svg></div>
+          <h1 class="ob-title">你的健身目标</h1>
+          <p class="ob-sub">我会据此调整每日热量与训练比配。</p>
+          <div class="ob-goals" id="ob-goals">
+            <button type="button" class="ob-goal" data-goal="cut">
+              <span class="ob-goal-ico"><svg class="i"><use href="#i-flame"/></svg></span>
+              <b>减脂</b><em>降低体脂，打造线条</em>
+            </button>
+            <button type="button" class="ob-goal" data-goal="bulk">
+              <span class="ob-goal-ico"><svg class="i"><use href="#i-dumbbell"/></svg></span>
+              <b>增肌</b><em>增加肌肉与力量</em>
+            </button>
+            <button type="button" class="ob-goal" data-goal="sport">
+              <span class="ob-goal-ico"><svg class="i"><use href="#i-activity"/></svg></span>
+              <b>运动表现</b><em>提升耐力与爆发力</em>
+            </button>
+          </div>
+          <div class="ob-avatar-row">
+            <button type="button" class="ob-avatar" id="ob-avatar-btn">
+              <span class="ob-avatar-in" id="ob-avatar-in"><svg class="i"><use href="#i-user"/></svg></span>
+            </button>
+            <div class="ob-avatar-t">
+              <span class="ob-avatar-lab">设置头像</span>
+              <span class="ob-avatar-sub">可选 · 点击上传</span>
+            </div>
+          </div>
+          <input type="file" id="ob-avatar-input" accept="image/*" class="hide" />
+          <span class="err-msg" id="ob-err-goal"></span>
+        </section>
+
+        <!-- 5 确认 -->
+        <section class="ob-step" data-ob-step="4">
+          <div class="ob-hero ob-hero-done"><svg class="i"><use href="#i-check"/></svg></div>
+          <h1 class="ob-title">准备就绪</h1>
+          <p class="ob-sub">确认信息无误，我们马上开始。</p>
+          <div class="ob-summary" id="ob-summary"></div>
+          <div class="ob-target">
+            <span class="ob-target-v" id="ob-target-cal">--</span>
+            <span class="ob-target-l">每日建议摄入热量</span>
+          </div>
+        </section>
+      </main>
+
+      <footer class="ob-foot">
+        <button type="button" class="ob-btn ob-btn-ghost" id="ob-prev">上一步</button>
+        <button type="button" class="ob-btn ob-btn-main" id="ob-next">下一步</button>
+      </footer>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
